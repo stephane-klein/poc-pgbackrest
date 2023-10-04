@@ -1,0 +1,9 @@
+[global]
+
+spool-path=/var/pgbackrest/spool
+
+repo1-path=/var/lib/pgbackrest
+repo1-retention-full=2
+
+[instance1]
+pg1-path={{ .Env.PGDATA }}

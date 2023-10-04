@@ -1,0 +1,3 @@
+0 */1 * * * * * su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info backup'
+0 */3 * * * * * su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info --type=diff backup'
+0 */5 * * * * * su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info --type=full backup'
