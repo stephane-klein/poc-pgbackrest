@@ -19,9 +19,15 @@ pgcli installed ✅
 
 See [`prerequisites.md`](prerequisites.md) to get more information on how to install this software.
 
+## Services versions
+
+- PostgreSQL 16
+- [pgBackRest 2.49](https://github.com/pgbackrest/pgbackrest/releases/tag/release%2F2.49)
+
 ## Getting start
 
 ```sh
+$ docker compose build
 $ docker compose up -d --wait
 $ ./scripts/seed.sh
 $ ./scripts/fixtures.sh
@@ -36,4 +42,14 @@ postgres@127:postgres> select * from public.users;
 +----+----------+
 SELECT 3
 Time: 0.012s
+```
+
+## Debug container
+
+Here's how to enter the container built by [`Dockerfile`](./Dockerfile) without launching the ['docker-entrypoint.sh'](./docker-entrypoint.sh) and therefore the Postgres service:
+
+```sh
+$ docker compose run --rm --entrypoint bash postgres
+root@847ef12886b3:/# pgbackrest version
+pgBackRest 2.49
 ```
