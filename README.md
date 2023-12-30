@@ -4,6 +4,7 @@ Repository starting point issue (in French): https://github.com/stephane-klein/b
 
 ## Prerequisites
 
+- [rtx](https://github.com/jdx/rtx)
 - [Docker Engine](https://docs.docker.com/engine/) (tested with `24.0.6`)
 - [pgcli](https://www.pgcli.com/)
 - `psql` (More info about `psql` [brew package](https://stackoverflow.com/a/49689589/261061))
@@ -27,6 +28,7 @@ See [`prerequisites.md`](prerequisites.md) to get more information on how to ins
 ## Getting start
 
 ```sh
+$ rtx install
 $ docker compose build
 $ docker compose up -d --wait
 $ ./scripts/seed.sh

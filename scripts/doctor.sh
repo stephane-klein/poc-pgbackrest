@@ -61,6 +61,39 @@ else
     source /etc/os-release
 fi
 
+if [[ $(command -v rtx) =~ "rtx" ]]; then
+    if (version_compare $(rtx version | cut -d" " -f1) ge "2023.11.4"); then
+        printf "rtx 2023.11.4 >= %s installed ✅\n" $(rtx version | cut -d" " -f1)
+    else
+        if [[ "$OSTYPE" =~ ^darwin ]]; then
+            printf "Error: rtx is not installed\n\n"
+            printf "How to fix the error? Execute:\n\n"
+            printf "  $ brew install rtx\n\n"
+        fi
+
+        if [[ "$ID" == fedora ]]; then
+            printf "Error: rtx version %s is installed, but the project need version >= 2023.11.4 \n" $(rtx version | cut -d" " -f1)
+            printf "How to fix the error? Follow https://github.com/jdx/rtx#dnf instructions or execute:\n\n"
+            printf "  $ sudo dnf update -y rtx\n\n"
+        fi
+    fi
+else
+    if [[ "$OSTYPE" =~ ^darwin ]]; then
+        printf "Error: rtx is not installed\n\n"
+        printf "How to fix the error? Execute:\n\n"
+        printf "  $ brew install rtx\n\n"
+    fi
+
+    if [[ "$ID" == fedora ]]; then
+        printf "Error: rtx is not installed\n\n"
+        printf "How to fix the error? Follow https://github.com/jdx/rtx#dnf instructions or execute:\n\n"
+        printf "  $ sudo dnf -y install dnf-plugins-core\n"
+        printf "  $ sudo sudo dnf config-manager --add-repo https://rtx.pub/rpm/rtx.repo\n"
+        printf "  $ sudo dnf install -y rtx\n"
+        exit 1
+    fi
+fi
+
 if [[ $(command -v docker) =~ "docker" ]]; then
     if (version_compare $(docker version --format '{{.Client.Version}}') ge 24.0.6); then
         printf "docker 24.0.6 >= %s installed ✅\n" $(docker version --format '{{.Client.Version}}')

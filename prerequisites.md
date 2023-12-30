@@ -1,5 +1,6 @@
 # Prerequisites
 
+- [rtx](https://github.com/jdx/rtx)
 - [Docker Engine](https://docs.docker.com/engine/) (tested with `24.0.6`)
 - [pgcli](https://www.pgcli.com/)
 - `psql` (More info about `psql` [brew package](https://stackoverflow.com/a/49689589/261061))
@@ -15,7 +16,7 @@ $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/
 Install Docker and `psql`:
 
 ```sh
-$ brew install docker libpq
+$ brew install docker libpq rtx
 $ brew link --force libpq
 ```
 
@@ -27,7 +28,15 @@ $ pip install pgcli
 
 ### Installation on Fedora
 
- or execute
+
+To install [rtx](https://github.com/jdx/rtx) follow [official guide](https://github.com/jdx/rtx#dnf) instructions or execute:
+
+```sh
+$ sudo dnf install -y dnf-plugins-core
+$ sudo dnf config-manager --add-repo https://rtx.pub/rpm/rtx.repo
+$ sudo dnf install -y rtx
+```
+
 To install [Docker Engine](https://docs.docker.com/engine/)  `docker compose` follow [Install Docker Engine on Fedora](https://docs.docker.com/engine/install/fedora/) instructions or execute:
 ```
 $ sudo dnf -y install dnf-plugins-core\n"
