@@ -49,6 +49,18 @@ SELECT 3
 Time: 0.012s
 ```
 
+## Access to minio web console
+
+Go to http://127.0.0.1:9001
+
+Login, password: `minioadmin`|`minioadmin`
+
+## List files in Minio pgbackrest folder
+
+```
+$ mc ls pgbackrest/pgbackrest
+```
+
 ## Debug container
 
 Here's how to enter the container built by [`Dockerfile`](./Dockerfile) without launching the ['docker-entrypoint.sh'](./docker-entrypoint.sh) and therefore the Postgres service:
