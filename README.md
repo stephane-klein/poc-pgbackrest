@@ -30,16 +30,19 @@ See [`prerequisites.md`](prerequisites.md) to get more information on how to ins
 $ docker compose build
 $ docker compose up -d --wait
 $ ./scripts/seed.sh
-$ ./scripts/fixtures.sh
+$ ./scripts/generate_dummy_rows.sh
 $ ./scripts/enter-in-pg.sh
-postgres@127:postgres> select * from public.users;
-+----+----------+
-| id | username |
-|----+----------|
-| 1  | user1    |
-| 2  | user2    |
-| 3  | user3    |
-+----+----------+
+postgres@127:postgres> select * from public.dummy;
++----+-------------------------------+
+| id | text                          |
+|----+-------------------------------|
+| 1  | 2023-12-30 14:04:31.763204+00 |
+| 2  | 2023-12-30 14:04:31.763204+00 |
+| 3  | 2023-12-30 14:04:31.763204+00 |
+| 4  | 2023-12-30 14:04:31.763204+00 |
+| 5  | 2023-12-30 14:04:31.763204+00 |
+| 6  | 2023-12-30 14:04:31.763204+00 |
++----+-------------------------------+
 SELECT 3
 Time: 0.012s
 ```
@@ -53,3 +56,4 @@ $ docker compose run --rm --entrypoint bash postgres
 root@847ef12886b3:/# pgbackrest version
 pgBackRest 2.49
 ```
+
