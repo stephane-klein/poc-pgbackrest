@@ -51,7 +51,7 @@ Time: 0.012s
 
 ## Access to minio web console
 
-Go to http://127.0.0.1:9001
+Go to https://127.0.0.1:9001
 
 Login, password: `minioadmin`|`minioadmin`
 
