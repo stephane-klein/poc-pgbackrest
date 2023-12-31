@@ -30,7 +30,40 @@ See [`prerequisites.md`](prerequisites.md) to get more information on how to ins
 ```sh
 $ rtx install
 $ docker compose build
+```
+
+I start Minio service:
+
+```sh
+$ docker compose up -d minio --wait
+```
+
+I create the S3 bucket in Minio:
+
+```sh
+$ mc mb pgbackrest/pgbackrest
+Bucket created successfully `pgbackrest/pgbackrest`.
+$ mc ls pgbackrest/pgbackrest
+[2023-12-31 15:19:25 CET]     0B pgbackrest/
+```
+
+I start PostgreSQL database service:
+
+```sh
 $ docker compose up -d --wait
+```
+
+I check that the PostreSQL and Minio services are running correctly:
+
+```sh
+$ docker compose ps --services --status running
+minio
+postgres
+```
+
+I initialize the database with data:
+
+```sh
 $ ./scripts/seed.sh
 $ ./scripts/generate_dummy_rows.sh
 $ ./scripts/enter-in-pg.sh
@@ -49,6 +82,32 @@ SELECT 3
 Time: 0.012s
 ```
 
+Wait 60s, and check:
+
+```sh
+$ ./scripts/pg_stat_archiver.sh
+ archived_count |    last_archived_wal     |      last_archived_time       | failed_count | last_failed_wal | last_failed_time |          stats_reset
+----------------+--------------------------+-------------------------------+--------------+-----------------+------------------+-------------------------------
+              9 | 00000001000000000000000F | 2023-12-31 17:05:23.143769+00 |            0 |                 |                  | 2023-12-31 16:00:46.015233+00
+(1 ligne)
+
+$ mc du pgbackrest
+7.0MiB  1047 objects
+
+$ ./scripts/table_sizes.sh
+Database size:
+ pg_size_pretty
+----------------
+ 7580 kB
+(1 ligne)
+
+Table sizes:
+ schema | table | total_size | data_size  | index_size | rows | total_row_size | row_size
+--------+-------+------------+------------+------------+------+----------------+----------
+ public | dummy | 32 kB      | 8192 bytes | 16 kB      |  110 | 295 bytes      | 73 bytes
+(1 ligne)
+```
+
 ## Access to minio web console
 
 Go to https://127.0.0.1:9001
@@ -57,12 +116,6 @@ Login, password: `minioadmin`|`minioadmin`
 
 ## List files in Minio pgbackrest folder
 
-```
-$ mc mb pgbackrest/pgbackrest
-Bucket created successfully `pgbackrest/pgbackrest`.
-$ mc ls pgbackrest/pgbackrest
-[2023-12-31 15:19:25 CET]     0B pgbackrest/
-```
 
 ## Debug container
 
