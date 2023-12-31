@@ -12,9 +12,6 @@ done
 
 gomplate -f /etc/pgbackrest.conf.tmpl -o /etc/pgbackrest.conf
 
-mkdir -p /var/lib/pgbackrest
-chmod 750 /var/lib/pgbackrest
-chown postgres:postgres /var/lib/pgbackrest
 su postgres -c "pg_ctl status"
 su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info stanza-create'
 su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info check'
