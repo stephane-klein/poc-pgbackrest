@@ -11,9 +11,29 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+      PGBACKREST_STANZA_CREATE: 1
+      START_SUPERCRONIC: 1
     volumes:
       - ./volumes/postgres/:/var/lib/postgresql/
-      - ./volumes/pgbackrest/:/var/lib/pgbackrest/
+    healthcheck:
+      test: ["CMD", "sh", "-c", "pg_isready -U $$POSTGRES_USER -h $$(hostname -i)"]
+      interval: 10s
+      start_period: 30s
+
+  postgres2:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./postgres2.conf:/etc/postgresql/postgresql.conf
+      - ./volumes/postgres2/:/var/lib/postgresql/
     healthcheck:
       test: ["CMD", "sh", "-c", "pg_isready -U $$POSTGRES_USER -h $$(hostname -i)"]
       interval: 10s

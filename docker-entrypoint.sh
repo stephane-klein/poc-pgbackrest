@@ -12,11 +12,15 @@ done
 
 gomplate -f /etc/pgbackrest.conf.tmpl -o /etc/pgbackrest.conf
 
-su postgres -c "pg_ctl status"
-su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info stanza-create'
-su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info check'
-su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info backup'
+if [[ -v PGBACKREST_STANZA_CREATE ]]; then
+    su postgres -c "pg_ctl status"
+    su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info stanza-create'
+    su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info check'
+    su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info backup'
+fi
 
-# /usr/local/bin/supercronic /crontab &
+if [[ -v START_SUPERCRONIC ]]; then
+    /usr/local/bin/supercronic /crontab &
+fi
 
 wait -n

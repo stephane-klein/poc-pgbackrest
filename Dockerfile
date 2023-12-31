@@ -21,6 +21,6 @@ COPY crontab /crontab
 COPY postgres.conf /etc/postgresql/postgresql.conf
 COPY pgbackrest.conf.tmpl /etc/pgbackrest.conf.tmpl
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
+COPY ./restore.sh /restore.sh
 
 ENTRYPOINT ["/tini", "--", "/docker-entrypoint.sh"]

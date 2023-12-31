@@ -50,7 +50,7 @@ $ mc ls pgbackrest/pgbackrest
 I start PostgreSQL database service:
 
 ```sh
-$ docker compose up -d --wait
+$ docker compose up -d postgres --wait
 ```
 
 I check that the PostreSQL and Minio services are running correctly:
@@ -149,6 +149,34 @@ stanza: instance1
             database size: 22.2MB, database backup size: 2.8MB
             repo1: backup set size: 2.9MB, backup size: 337.3KB
             backup reference list: 20231231-155910F, 20231231-155910F_20231231-155935I
+```
+
+## Simulate database restore in postgres2 instance
+
+Stop `postgres2` instance and delete its volume:
+
+```sh
+$ docker compose stop postgres2
+$ sudo rm -rf volumes/postgres2
+```
+
+Launch backup restoration to `postgres2` instance:
+
+```sh
+$ docker compose run --entrypoint=/restore.sh postgres2
+2023-12-31 19:04:53.617 P00   INFO: restore command begin 2.49: --delta --exec-id=21-cb3750eb --log-level-console=info --log-level-file=info --pg1-path=/var/lib/postgresql/data --process-max=2 --repo1-path=/repo --repo1-s3-bucket=pgbackrest --repo1-s3-endpoint=minio --repo1-s3-key=<redacted> --repo1-s3-key-secret=<redacted> --repo1-s3-region=us-east-1 --no-repo1-storage-verify-tls --repo1-type=s3 --stanza=instance1
+WARN: --delta or --force specified but unable to find 'PG_VERSION' or 'backup.manifest' in '/var/lib/postgresql/data' to confirm that this is a valid $PGDATA directory. --delta and --force have been disabled and if any files exist in the destination directories the restore will be aborted.
+2023-12-31 19:04:53.631 P00   INFO: repo1: restore backup set 20231231-155910F_20231231-185030I, recovery will start at 2023-12-31 18:50:30
+2023-12-31 19:04:55.112 P00   INFO: write updated /var/lib/postgresql/data/postgresql.auto.conf
+2023-12-31 19:04:55.130 P00   INFO: restore global/pg_control (performed last to ensure aborted restores cannot be started)
+2023-12-31 19:04:55.132 P00   INFO: restore size = 22.2MB, file total = 971
+2023-12-31 19:04:55.132 P00   INFO: restore command end: completed successfully (1516ms)
+```
+
+Start `postgres2` instance:
+
+```sh
+$ docker compose up -d postgres2
 ```
 
 ## Access to minio web console
