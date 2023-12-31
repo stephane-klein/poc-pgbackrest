@@ -1,9 +1,27 @@
 [global]
 
 spool-path=/var/pgbackrest/spool
-
 repo1-path=/var/lib/pgbackrest
+#repo1-retention-full=2
+
+#repo1-path=/pgbackrest
+repo1-type=S3
+repo1-s3-endpoint=minio
+repo1-s3-bucket=pgbackrest
+repo1-s3-verify-tls=n
+repo1-s3-key=minioadmin
+repo1-s3-key-secret=minioadmin
+repo1-s3-region=us-east-1
+
 repo1-retention-full=2
+process-max=2
+log-level-console=info
+log-level-file=debug
+start-fast=y
+delta=y
+
+[global:archive-push]
+compress-level=3
 
 [instance1]
 pg1-path={{ .Env.PGDATA }}
