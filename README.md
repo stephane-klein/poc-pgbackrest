@@ -58,7 +58,10 @@ Login, password: `minioadmin`|`minioadmin`
 ## List files in Minio pgbackrest folder
 
 ```
+$ mc mb pgbackrest/pgbackrest
+Bucket created successfully `pgbackrest/pgbackrest`.
 $ mc ls pgbackrest/pgbackrest
+[2023-12-31 15:19:25 CET]     0B pgbackrest/
 ```
 
 ## Debug container
