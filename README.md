@@ -157,8 +157,6 @@ Go to https://127.0.0.1:9001
 
 Login, password: `minioadmin`|`minioadmin`
 
-## List files in Minio pgbackrest folder
-
 
 ## Debug container
 
