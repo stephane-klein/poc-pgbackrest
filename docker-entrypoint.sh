@@ -20,6 +20,6 @@ su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info stanza
 su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info check'
 su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info backup'
 
-/usr/local/bin/supercronic /crontab &
+# /usr/local/bin/supercronic /crontab &
 
 wait -n

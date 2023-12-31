@@ -61,6 +61,19 @@ minio
 postgres
 ```
 
+I wait a few seconds to allow the command [`pgbackrest --stanza=instance1 --log-level-console=info stanza-create`](./docker-entrypoint.sh#19) to run.
+
+I check that all has gone well with the following command:
+
+```sh
+$ ./scripts/pgbackrest.sh check
+2023-12-31 17:22:55.912 P00   INFO: check command begin 2.49: --exec-id=2448-6736ba1a --log-level-console=info --log-level-file=info --pg1-path=/var/lib/postgresql/data --repo1-path=/repo --repo1-s3-bucket=pgbackrest --repo1-s3-endpoint=minio --repo1-s3-key=<redacted> --repo1-s3-key-secret=<redacted> --repo1-s3-region=us-east-1 --no-repo1-storage-verify-tls --repo1-type=s3 --stanza=instance1
+2023-12-31 17:22:56.517 P00   INFO: check repo1 configuration (primary)
+2023-12-31 17:22:56.724 P00   INFO: check repo1 archive for WAL (primary)
+2023-12-31 17:22:56.726 P00   INFO: WAL segment 000000010000000000000011 successfully archived to '/repo/archive/instance1/16-1/0000000100000000/000000010000000000000011-12fd1b3f2c4d731ad623aad01a83dea308ea56ec.gz' on repo1
+2023-12-31 17:22:56.726 P00   INFO: check command end: completed successfully (816ms)
+```
+
 I initialize the database with data:
 
 ```sh
@@ -106,6 +119,36 @@ Table sizes:
 --------+-------+------------+------------+------------+------+----------------+----------
  public | dummy | 32 kB      | 8192 bytes | 16 kB      |  110 | 295 bytes      | 73 bytes
 (1 ligne)
+```
+
+```sh
+$ ./scripts/pgbackrest.sh info
+stanza: instance1
+    status: ok
+    cipher: none
+
+    db (current)
+        wal archive min/max (16): 000000010000000000000001/000000010000000000000012
+
+        full backup: 20231231-155910F
+            timestamp start/stop: 2023-12-31 15:59:10+00 / 2023-12-31 15:59:14+00
+            wal start/stop: 000000010000000000000003 / 000000010000000000000004
+            database size: 22MB, database backup size: 22MB
+            repo1: backup set size: 2.9MB, backup size: 2.9MB
+
+        incr backup: 20231231-155910F_20231231-155935I
+            timestamp start/stop: 2023-12-31 15:59:35+00 / 2023-12-31 15:59:37+00
+            wal start/stop: 000000010000000000000006 / 000000010000000000000007
+            database size: 22MB, database backup size: 8.3KB
+            repo1: backup set size: 2.9MB, backup size: 402B
+            backup reference list: 20231231-155910F
+
+        incr backup: 20231231-155910F_20231231-160049I
+            timestamp start/stop: 2023-12-31 16:00:49+00 / 2023-12-31 16:00:50+00
+            wal start/stop: 000000010000000000000009 / 00000001000000000000000A
+            database size: 22.2MB, database backup size: 2.8MB
+            repo1: backup set size: 2.9MB, backup size: 337.3KB
+            backup reference list: 20231231-155910F, 20231231-155910F_20231231-155935I
 ```
 
 ## Access to minio web console
