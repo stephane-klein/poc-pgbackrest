@@ -1,3 +1,8 @@
-0 */1 * * * * * su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info backup'
+# Every minutes
+0 */1 * * * * * su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info --type=incr backup'
+
+# Every 3 minutes
 0 */3 * * * * * su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info --type=diff backup'
+
+# Every 5 minutes
 0 */5 * * * * * su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info --type=full backup'
