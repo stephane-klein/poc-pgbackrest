@@ -2,6 +2,8 @@
 
 set -e
 
+chown postgres /var/lib/postgresql/data/
+chmod go-rwX /var/lib/postgresql/data/
 gomplate -f /etc/pgbackrest.conf.tmpl -o /etc/pgbackrest.conf
 
-su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info restore'
+su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info restore --type=immediate'

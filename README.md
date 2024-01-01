@@ -41,9 +41,9 @@ $ docker compose up -d minio --wait
 I create the S3 bucket in Minio:
 
 ```sh
-$ mc mb pgbackrest/pgbackrest
-Bucket created successfully `pgbackrest/pgbackrest`.
-$ mc ls pgbackrest/pgbackrest
+$ mc mb pgbackrest/
+Bucket created successfully `pgbackrest/`.
+$ mc ls pgbackrest/
 [2023-12-31 15:19:25 CET]     0B pgbackrest/
 ```
 

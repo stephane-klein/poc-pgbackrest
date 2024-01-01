@@ -14,7 +14,7 @@ services:
       PGBACKREST_STANZA_CREATE: 1
       START_SUPERCRONIC: 1
     volumes:
-      - ./volumes/postgres/:/var/lib/postgresql/
+      - ./volumes/postgres/:/var/lib/postgresql/data/
     healthcheck:
       test: ["CMD", "sh", "-c", "pg_isready -U $$POSTGRES_USER -h $$(hostname -i)"]
       interval: 10s
@@ -33,7 +33,7 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - ./postgres2.conf:/etc/postgresql/postgresql.conf
-      - ./volumes/postgres2/:/var/lib/postgresql/
+      - ./volumes/postgres2/:/var/lib/postgresql/data/
     healthcheck:
       test: ["CMD", "sh", "-c", "pg_isready -U $$POSTGRES_USER -h $$(hostname -i)"]
       interval: 10s
