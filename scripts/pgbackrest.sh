@@ -3,4 +3,4 @@ set -e
 
 cd "$(dirname "$0")/../"
 
-docker compose exec postgres sh -c "su postgres -p -c 'pgbackrest --stanza=instance1 $@'"
+docker compose exec postgres1 sh -c "su postgres -p -c 'pgbackrest --stanza=instance1 $@'"

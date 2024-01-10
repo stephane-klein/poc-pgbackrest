@@ -50,7 +50,7 @@ $ mc ls pgbackrest/
 I start PostgreSQL database service:
 
 ```sh
-$ docker compose up -d postgres --wait
+$ docker compose up -d postgres1 --wait
 ```
 
 I check that the PostreSQL and Minio services are running correctly:
@@ -58,7 +58,7 @@ I check that the PostreSQL and Minio services are running correctly:
 ```sh
 $ docker compose ps --services --status running
 minio
-postgres
+postgres1
 ```
 
 I wait a few seconds to allow the command [`pgbackrest --stanza=instance1 --log-level-console=info stanza-create`](./docker-entrypoint.sh#19) to run.
@@ -79,7 +79,7 @@ I initialize the database with data:
 ```sh
 $ ./scripts/seed.sh
 $ ./scripts/generate_dummy_rows.sh
-$ ./scripts/enter-in-pg.sh
+$ ./scripts/enter-in-pg1.sh
 postgres@127:postgres> select * from public.dummy;
 +----+-------------------------------+
 | id | text                          |
@@ -186,7 +186,59 @@ $ docker compose stop postgres2
 $ sudo rm -rf volumes/postgres2
 $ docker compose run --entrypoint=/restore.sh postgres2 "--type=time --target='2024-01-01 21:02:00+00' restore"
 $ docker compose up -d postgres2
+$ ./scripts/enter-in-pg2.sh
+postgres@127:postgres> select * from dummy order by id desc limit 10;
++-----+-------------------------------+
+| id  | text                          |
+|-----+-------------------------------|
+| 132 | 2024-01-01 21:01:11.684139+00 |
+| 131 | 2024-01-01 21:01:11.684139+00 |
+| 130 | 2024-01-01 21:01:11.684139+00 |
+| 129 | 2024-01-01 21:01:11.684139+00 |
+| 128 | 2024-01-01 21:01:11.684139+00 |
+| 127 | 2024-01-01 21:01:11.684139+00 |
+| 126 | 2024-01-01 21:01:11.684139+00 |
+| 125 | 2024-01-01 21:01:11.684139+00 |
+| 124 | 2024-01-01 21:01:11.684139+00 |
+| 123 | 2024-01-01 21:01:11.684139+00 |
++-----+-------------------------------+
+SELECT 10
+Time: 0.010s
+$ docker compose stop postgres2
+$ sudo rm -rf volumes/postgres2
+$ docker compose run --entrypoint=/restore.sh postgres2 restore
+$ docker compose up -d postgres2
+$ ./scripts/enter-in-pg2.sh
+postgres@127:postgres> select * from dummy order by id desc limit 10;
++-----+-------------------------------+
+| id  | text                          |
+|-----+-------------------------------|
+| 143 | 2024-01-01 21:03:04.292911+00 |
+| 142 | 2024-01-01 21:03:04.292911+00 |
+| 141 | 2024-01-01 21:03:04.292911+00 |
+| 140 | 2024-01-01 21:03:04.292911+00 |
+| 139 | 2024-01-01 21:03:04.292911+00 |
+| 138 | 2024-01-01 21:03:04.292911+00 |
+| 137 | 2024-01-01 21:03:04.292911+00 |
+| 136 | 2024-01-01 21:03:04.292911+00 |
+| 135 | 2024-01-01 21:03:04.292911+00 |
+| 134 | 2024-01-01 21:03:04.292911+00 |
++-----+-------------------------------+
+SELECT 10
+Time: 0.007s
 ```
+
+Now, I test restoration on `postgre1` instance:
+
+```
+$ docker compose stop postgres1
+$ sudo rm -rf volumes/postgres1
+$ docker compose run --entrypoint=/restore.sh postgres1 "--type=time --target='2024-01-01 21:02:00+00' restore"
+$ docker compose up -d postgres1
+$ ./scripts/enter-in-pg1.sh
+postgres@127:postgres> select * from dummy order by id desc limit 10;
+```
+
 
 ## Access to minio web console
 
