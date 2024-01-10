@@ -234,11 +234,16 @@ Now, I test restoration on `postgre1` instance:
 $ docker compose stop postgres1
 $ sudo rm -rf volumes/postgres1
 $ docker compose run --entrypoint=/restore.sh postgres1 "--type=time --target='2024-01-01 21:02:00+00' restore"
+```
+
+If you're not restoring the latest version of the database, but a past version, don't forget to change the value
+of `PGBACKREST_REPO1_PATH` in the docker-compose so as not to continue writing to the previous backup (stanza).
+
+```
 $ docker compose up -d postgres1
 $ ./scripts/enter-in-pg1.sh
 postgres@127:postgres> select * from dummy order by id desc limit 10;
 ```
-
 
 ## Access to minio web console
 

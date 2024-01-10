@@ -1,4 +1,10 @@
 [global]
+
+# All this variable can be configured by PGBACKREST_ environment variable defined in Docker container
+# More information about the environment variable names, please consult the following upstream documentation:
+# https://pgbackrest.org/command.html#introduction
+
+# This is default values overwrited by environment variables
 repo1-type=s3
 repo1-path=/repo
 repo1-s3-endpoint=minio
@@ -7,7 +13,6 @@ repo1-s3-verify-tls=n
 repo1-s3-key=minioadmin
 repo1-s3-key-secret=minioadmin
 repo1-s3-region=us-east-1
-
 repo1-retention-full=2
 process-max=2
 log-level-console=info
