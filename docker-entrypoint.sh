@@ -13,10 +13,13 @@ do
 done
 
 if [[ -v PGBACKREST_STANZA_CREATE ]]; then
-    su postgres -c "pg_ctl status"
-    su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info stanza-create'
-    su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info check'
-    su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info backup'
+    if ! pgbackrest --stanza=instance1 info | grep "status: ok";then
+        # initialize pgbackrest stanza only if it not exists
+        su postgres -c "pg_ctl status"
+        su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info stanza-create'
+        su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info check'
+        su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info backup'
+    fi
 fi
 
 if [[ -v START_SUPERCRONIC ]]; then
