@@ -13,7 +13,8 @@ services:
       POSTGRES_PASSWORD: password
       START_SUPERCRONIC: 1
 
-      PGBACKREST_REPO1_PATH: "/repo2"
+      # Configuration for local Minio bucket instance
+      PGBACKREST_REPO1_PATH: "/repo"
       PGBACKREST_REPO1_S3_ENDPOINT: minio
       PGBACKREST_REPO1_S3_BUCKET: pgbackrest
       PGBACKREST_REPO1_S3_VERIFY_TLS: n
@@ -21,6 +22,17 @@ services:
       PGBACKREST_REPO1_S3_KEY_SECRET: minioadmin
       PGBACKREST_REPO1_S3_REGION: us-east-1
       PGBACKREST_REPO1_RETENTION_FULL: 2
+
+      # Configuration for Backblaze remote bucket
+      # PGBACKREST_REPO1_PATH: "/repo"
+      # PGBACKREST_REPO1_S3_URI_STYLE: "path"
+      # PGBACKREST_REPO1_S3_ENDPOINT: s3.eu-central-003.backblazeb2.com
+      # PGBACKREST_REPO1_S3_BUCKET: pgbackrest-backup-bucket
+      # PGBACKREST_REPO1_S3_VERIFY_TLS: y
+      # PGBACKREST_REPO1_S3_KEY: ${B2_APPLICATION_KEY_ID}
+      # PGBACKREST_REPO1_S3_KEY_SECRET: ${B2_APPLICATION_KEY}
+      # PGBACKREST_REPO1_S3_REGION: s3.eu-central-003
+      # PGBACKREST_REPO1_RETENTION_FULL: 2
 
     volumes:
       - ./volumes/postgres1/:/var/lib/postgresql/data/
@@ -40,6 +52,27 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+
+      # Configuration for local Minio instance
+      PGBACKREST_REPO1_PATH: "/repo"
+      PGBACKREST_REPO1_S3_ENDPOINT: minio
+      PGBACKREST_REPO1_S3_BUCKET: pgbackrest
+      PGBACKREST_REPO1_S3_VERIFY_TLS: n
+      PGBACKREST_REPO1_S3_KEY: minioadmin
+      PGBACKREST_REPO1_S3_KEY_SECRET: minioadmin
+      PGBACKREST_REPO1_S3_REGION: us-east-1
+      PGBACKREST_REPO1_RETENTION_FULL: 2
+
+      # Configuration for Backblaze remote bucket
+      # PGBACKREST_REPO1_PATH: "/repo"
+      # PGBACKREST_REPO1_S3_ENDPOINT: backblazeb2.com
+      # PGBACKREST_REPO1_S3_BUCKET: pgbackrest-backup-bucket
+      # PGBACKREST_REPO1_S3_VERIFY_TLS: y
+      # PGBACKREST_REPO1_S3_KEY: ${B2_APPLICATION_KEY_ID}
+      # PGBACKREST_REPO1_S3_KEY_SECRET: ${B2_APPLICATION_KEY}
+      # PGBACKREST_REPO1_S3_REGION: s3.eu-central-003
+      # PGBACKREST_REPO1_RETENTION_FULL: 2
+
     volumes:
       - ./postgres2.conf:/etc/postgresql/postgresql.conf
       - ./volumes/postgres2/:/var/lib/postgresql/data/
