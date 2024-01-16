@@ -10,6 +10,8 @@ $ terraform init
 $ terraform apply
 ```
 
+Some command to check bucket is working properly:
+
 ```sh
 $ mc ls scaleway
 [2024-01-15 22:34:51 CET]     0B pgbackrest-backup-bucket/
