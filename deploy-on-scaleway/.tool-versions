@@ -1,2 +1,4 @@
 terraform 1.6.6
 mc 2023-12-23T08-47-21Z
+jq 1.6
+gomplate v3.11.5

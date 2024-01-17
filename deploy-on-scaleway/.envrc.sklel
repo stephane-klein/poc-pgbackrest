@@ -1,4 +1,6 @@
 export SCW_ACCESS_KEY="..."
 export SCW_SECRET_KEY="..."
 
+export POSTGRES_PASSWORD="..."
+
 export MC_HOST_scaleway=https://${SCW_ACCESS_KEY}:${SCW_SECRET_KEY}@s3.fr-par.scw.cloud
