@@ -12,3 +12,6 @@ indent_size = 2
 
 [*.yaml]
 indent_size = 2
+
+[*.tf]
+indent_size = 4

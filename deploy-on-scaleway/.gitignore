@@ -1,4 +1,5 @@
 .envrc
 .terraform/
-*.lock.hc
+*.lock.hcl
 *.tfstate
+*.tfstate.backup
