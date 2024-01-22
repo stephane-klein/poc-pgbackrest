@@ -24,6 +24,7 @@ services:
       PGBACKREST_REPO1_RETENTION_FULL: 2
 
       # Configuration for Backblaze remote bucket
+      # See ./terraform-backblaze to create Backblaze bucket
       # PGBACKREST_REPO1_PATH: "/repo"
       # PGBACKREST_REPO1_S3_URI_STYLE: "path"
       # PGBACKREST_REPO1_S3_ENDPOINT: s3.eu-central-003.backblazeb2.com
@@ -35,6 +36,7 @@ services:
       # PGBACKREST_REPO1_RETENTION_FULL: 2
 
       # Configuration for Scaleway remote bucket
+      # See ./terraform-scaleway to create Scaleway bucket
       # PGBACKREST_REPO1_PATH: "/repo"
       # PGBACKREST_REPO1_S3_URI_STYLE: "host"
       # PGBACKREST_REPO1_S3_ENDPOINT: s3.fr-par.scw.cloud

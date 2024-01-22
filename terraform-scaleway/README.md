@@ -1,4 +1,4 @@
-# Deploy PostgreSQL + pgbackrest services on Scaleway compute instance
+# Terraform configuration for Scaleway Object storage
 
 ```
 $ cp .envrc.skel .envrc
@@ -11,22 +11,6 @@ $ rxt install
 $ terraform init
 $ terraform apply
 ```
-
-Get server public ip:
-
-```
-$ terraform show --json | jq '.values.root_module.resources[] | select(.address=="scaleway_instance_server.server1") | .values.public_ip' -r
-```
-
-```sh
-$ ./scripts/install_basic_server_configuration.sh
-$ ./scripts/deploy_postgres.sh
-$ ./scripts/open_ssh_tunnel_to_postgres.sh
-$ ./scripts/seed.sh
-$ ./scripts/generate_dummy_rows.sh
-```
-
-## Check Scaleway bucket
 
 Some command to check bucket is working properly:
 

@@ -30,7 +30,7 @@ services:
     volumes:
       - /var/lib/postgres/:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD', 'pg_isready']
+      test: pg_isready -U postgres
       interval: 10s
       start_period: 30s
 
