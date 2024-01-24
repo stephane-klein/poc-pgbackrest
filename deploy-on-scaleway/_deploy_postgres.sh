@@ -17,7 +17,8 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: {{ .Env.POSTGRES_PASSWORD }}
-      START_SUPERCRONIC: 1
+      ENABLE_PGBACKREST_BACKUP: 1
+
       PGBACKREST_REPO1_PATH: "/repo"
       PGBACKREST_REPO1_S3_URI_STYLE: "host"
       PGBACKREST_REPO1_S3_ENDPOINT: s3.fr-par.scw.cloud

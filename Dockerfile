@@ -18,7 +18,6 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
  && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
 
 COPY crontab /crontab
-COPY postgres.conf /etc/postgresql/postgresql.conf
 COPY pgbackrest.conf.tmpl /etc/pgbackrest.conf.tmpl
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 COPY ./restore.sh /restore.sh

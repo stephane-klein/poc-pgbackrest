@@ -26,32 +26,54 @@ $ ./scripts/seed.sh
 $ ./scripts/generate_dummy_rows.sh
 ```
 
-## Check Scaleway bucket
-
 Some command to check bucket is working properly:
 
 ```sh
-$ mc ls scaleway
-[2024-01-15 22:34:51 CET]     0B pgbackrest-backup-bucket/
+$ mc ls scaleway/pgbackrest-backup-bucket2/
+[2024-01-22 22:44:47 CET]     0B repo/
 ```
 
 ```sh
-$ mc cp README.md scaleway/pgbackrest-backup-bucket/folder1/
-...ackrest/README.md: 9.54 KiB / 9.54 KiB ━━━━━━━━━━━━ 15.95 KiB/s 0s
+postgres@127:postgres> select * from dummy order by id desc limit 4;
++----+-------------------------------+
+| id | text                          |
+|----+-------------------------------|
+| 44 | 2024-01-22 21:26:25.131294+00 |
+| 43 | 2024-01-22 21:26:25.131294+00 |
+| 42 | 2024-01-22 21:26:25.131294+00 |
+| 41 | 2024-01-22 21:26:25.131294+00 |
++----+-------------------------------+
+SELECT 4
+Time: 0.021s
 ```
 
 ```sh
-$ mc tree scaleway/pgbackrest-backup-bucket/
-scaleway/pgbackrest-backup-bucket/
-└─ folder1
+$ mc du scaleway/pgbackrest-backup-bucket2/
+19MiB   2254 objects    pgbackrest-backup-bucket2
 ```
 
-```sh
-$ mc ls scaleway/pgbackrest-backup-bucket/folder1/
-[2024-01-16 08:20:17 CET] 9.5KiB STANDARD README.md
-```
+Now I want to restore PostgreSQL backup on local Docker container instance.
+
+First, I check bucket configuration in Postgres3 container instance: 
 
 ```
-$ mc rm --versions -r --force scaleway/pgbackrest-backup-bucket/
+$ docker compose run --entrypoint=/restore.sh postgres3 info
+...
+```
+
+Launch restoration:
+
+```
+$ docker compose run --entrypoint=/restore.sh postgres3 restore
+2024-01-22 21:54:37.435 P00   INFO: write updated /var/lib/postgresql/data/postgresql.auto.conf
+2024-01-22 21:54:37.447 P00   INFO: restore global/pg_control (performed last to ensure aborted restores cannot be started)
+2024-01-22 21:54:37.449 P00   INFO: restore size = 22.2MB, file total = 971
+2024-01-22 21:54:37.450 P00   INFO: restore command end: completed successfully (42124ms)
+```
+
+Execute this command if you want delete bucket content:
+
+```
+$ mc rm --versions -r --force scaleway/pgbackrest-backup-bucket2/
 Created delete marker `scaleway/pgbackrest-backup-bucket/folder1/README.md` (versionId=4_z46edf6c8e6fa0bd883d50512_f429eb8f66228b517_d20240115_m163102_c003_v7007000_t0000_u01705336262970).
 ```

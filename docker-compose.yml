@@ -11,7 +11,8 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      START_SUPERCRONIC: 1
+      ENABLE_PGBACKREST_BACKUP: 1
+      # DISABLE_SUPERCRONIC: 1
 
       # Configuration for local Minio bucket instance
       PGBACKREST_REPO1_PATH: "/repo"
@@ -98,7 +99,6 @@ services:
       # PGBACKREST_REPO1_RETENTION_FULL: 2
 
     volumes:
-      - ./postgres2.conf:/etc/postgresql/postgresql.conf
       - ./volumes/postgres2/:/var/lib/postgresql/data/
     healthcheck:
       test: ["CMD", "sh", "-c", "pg_isready -U $$POSTGRES_USER -h $$(hostname -i)"]

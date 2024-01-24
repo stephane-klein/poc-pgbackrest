@@ -29,18 +29,18 @@ resource "scaleway_account_ssh_key" "stephane-klein-public-ssh-key" {
     project_id = scaleway_account_project.pgbackrest_poc.id
 }
 
-resource "scaleway_instance_ip" "server1_public_ip" {
-    project_id = scaleway_account_project.pgbackrest_poc.id
-}
-
-resource "scaleway_instance_server" "server1" {
-    project_id = scaleway_account_project.pgbackrest_poc.id
-    name = "server1"
-    type  = "DEV1-S"
-    image = "ubuntu_jammy" # Last Ubuntu LTS version 22.04
-                         # Execute "scw marketplace image list" to comsult the list of images proposed by Scaleway
-    ip_id = scaleway_instance_ip.server1_public_ip.id
-    root_volume {
-        size_in_gb = 10
-    }
-}
+# resource "scaleway_instance_ip" "server1_public_ip" {
+#     project_id = scaleway_account_project.pgbackrest_poc.id
+# }
+#
+# resource "scaleway_instance_server" "server1" {
+#     project_id = scaleway_account_project.pgbackrest_poc.id
+#     name = "server1"
+#     type  = "DEV1-S"
+#     image = "ubuntu_jammy" # Last Ubuntu LTS version 22.04
+#                          # Execute "scw marketplace image list" to comsult the list of images proposed by Scaleway
+#     ip_id = scaleway_instance_ip.server1_public_ip.id
+#     root_volume {
+#         size_in_gb = 10
+#     }
+# }
