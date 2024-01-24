@@ -11,7 +11,7 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      ENABLE_PGBACKREST_BACKUP: 1
+      # ENABLE_PGBACKREST_BACKUP: 1
       # DISABLE_SUPERCRONIC: 1
 
       # Configuration for local Minio bucket instance

@@ -151,7 +151,7 @@ stanza: instance1
             backup reference list: 20231231-155910F, 20231231-155910F_20231231-155935I
 ```
 
-## Simulate database restore in postgres2 instance
+## Retore the backup to the postgres2 instance
 
 Stop `postgres2` instance and delete its volume:
 
@@ -178,6 +178,8 @@ Start `postgres2` instance:
 ```sh
 $ docker compose up -d postgres2
 ```
+
+## Retore the backup to the postgres2 instance at give timestamp
 
 Launch backup restoration to `postgres2` instance:
 
