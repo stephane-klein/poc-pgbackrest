@@ -21,5 +21,7 @@ COPY crontab /crontab
 COPY pgbackrest.conf.tmpl /etc/pgbackrest.conf.tmpl
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 COPY ./pgbackrest.sh /pgbackrest.sh
+COPY ./restore.sh /restore.sh
+COPY ./restore-at.sh /restore-at.sh
 
 ENTRYPOINT ["/tini", "--", "/docker-entrypoint.sh"]

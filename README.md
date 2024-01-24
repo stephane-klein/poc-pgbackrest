@@ -163,7 +163,7 @@ $ sudo rm -rf volumes/postgres2
 Launch backup restoration to `postgres2` instance:
 
 ```sh
-$ docker compose run --entrypoint=/restore.sh postgres2 restore
+$ docker compose run --rm --entrypoint=/restore.sh postgres2 restore
 2023-12-31 19:04:53.617 P00   INFO: restore command begin 2.49: --delta --exec-id=21-cb3750eb --log-level-console=info --log-level-file=info --pg1-path=/var/lib/postgresql/data --process-max=2 --repo1-path=/repo --repo1-s3-bucket=pgbackrest --repo1-s3-endpoint=minio --repo1-s3-key=<redacted> --repo1-s3-key-secret=<redacted> --repo1-s3-region=us-east-1 --no-repo1-storage-verify-tls --repo1-type=s3 --stanza=instance1
 WARN: --delta or --force specified but unable to find 'PG_VERSION' or 'backup.manifest' in '/var/lib/postgresql/data' to confirm that this is a valid $PGDATA directory. --delta and --force have been disabled and if any files exist in the destination directories the restore will be aborted.
 2023-12-31 19:04:53.631 P00   INFO: repo1: restore backup set 20231231-155910F_20231231-185030I, recovery will start at 2023-12-31 18:50:30
@@ -186,7 +186,7 @@ Launch backup restoration to `postgres2` instance:
 ```sh
 $ docker compose stop postgres2
 $ sudo rm -rf volumes/postgres2
-$ docker compose run --entrypoint=/pgbackrest.sh postgres2 "--type=time --target='2024-01-01 21:02:00+00' restore"
+$ docker compose run --rm --entrypoint=/restore.sh postgres2 "--type=time --target='2024-01-01 21:02:00+00'"
 $ docker compose up -d postgres2
 $ ./scripts/enter-in-pg2.sh
 postgres@127:postgres> select * from dummy order by id desc limit 10;
@@ -208,7 +208,7 @@ SELECT 10
 Time: 0.010s
 $ docker compose stop postgres2
 $ sudo rm -rf volumes/postgres2
-$ docker compose run --entrypoint=/pgbackrest.sh postgres2 restore
+$ docker compose run --rm --entrypoint=/restore.sh postgres2
 $ docker compose up -d postgres2
 $ ./scripts/enter-in-pg2.sh
 postgres@127:postgres> select * from dummy order by id desc limit 10;
@@ -235,7 +235,7 @@ Now, I test restoration on `postgre1` instance:
 ```
 $ docker compose stop postgres1
 $ sudo rm -rf volumes/postgres1
-$ docker compose run --entrypoint=/pgbackrest.sh postgres1 "--type=time --target='2024-01-01 21:02:00+00' restore"
+$ docker compose run --rm --entrypoint=/restore-at.sh postgres1 "2024-01-01 21:02:00+00"
 ```
 
 If you're not restoring the latest version of the database, but a past version, don't forget to change the value

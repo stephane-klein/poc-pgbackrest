@@ -38,8 +38,24 @@ resource "scaleway_instance_server" "server1" {
     name = "server1"
     type  = "DEV1-S"
     image = "ubuntu_jammy" # Last Ubuntu LTS version 22.04
-                         # Execute "scw marketplace image list" to comsult the list of images proposed by Scaleway
+                           # Execute "scw marketplace image list" to comsult the list of images proposed by Scaleway
     ip_id = scaleway_instance_ip.server1_public_ip.id
+    root_volume {
+        size_in_gb = 10
+    }
+}
+
+resource "scaleway_instance_ip" "server2_public_ip" {
+    project_id = scaleway_account_project.pgbackrest_poc.id
+}
+
+resource "scaleway_instance_server" "server2" {
+    project_id = scaleway_account_project.pgbackrest_poc.id
+    name = "server2"
+    type  = "DEV1-S"
+    image = "ubuntu_jammy" # Last Ubuntu LTS version 22.04
+                           # Execute "scw marketplace image list" to comsult the list of images proposed by Scaleway
+    ip_id = scaleway_instance_ip.server2_public_ip.id
     root_volume {
         size_in_gb = 10
     }

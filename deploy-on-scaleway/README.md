@@ -59,7 +59,7 @@ Now I want to restore PostgreSQL backup on local Docker container instance.
 First, I check bucket configuration in Postgres3 container instance: 
 
 ```
-$ docker compose run --entrypoint=/pgbackrest.sh postgres3 info
+$ docker compose run --rm --entrypoint=/pgbackrest.sh postgres3 info
 ...
 ```
 
@@ -67,7 +67,7 @@ Launch restoration:
 
 ```
 $ sudo rm volumes/ -rf
-$ docker compose run --entrypoint=/pgbackrest.sh postgres3 restore
+$ docker compose run --rm --entrypoint=/restore.sh postgres3
 2024-01-22 21:54:37.435 P00   INFO: write updated /var/lib/postgresql/data/postgresql.auto.conf
 2024-01-22 21:54:37.447 P00   INFO: restore global/pg_control (performed last to ensure aborted restores cannot be started)
 2024-01-22 21:54:37.449 P00   INFO: restore size = 22.2MB, file total = 971
@@ -103,7 +103,7 @@ I wait few seconds and I restore *server1* backup to *postgres3* local instance:
 
 ```sh
 $ docker compose stop postgres3
-$ docker compose run --entrypoint=/pgbackrest.sh postgres3 restore
+$ docker compose run --rm --entrypoint=/restore.sh postgres3
 $ docker compose up -d postgres3
 ```
 
@@ -123,6 +123,25 @@ postgres@127:postgres> select * from public.dummy order by id desc limit 5;
 SELECT 5
 Time: 0.010s
 ```
+
+## Restore server1 backup to server2 instance
+
+In this example, *server1* backup is restored on *server2*.  
+*server2* start backup on */repo2*.
+
+```sh
+$ ./scripts/server1/install_basic_server_configuration.sh
+$ RESTORE=/repo ./scripts/server1/deploy_postgres.sh
+```
+
+Check the restoration operation:
+
+```
+$ ./scripts/server2/open_ssh_tunnel_to_postgres.sh
+$ ./scripts/
+```
+
+## Delete Scaleway bucket
 
 Execute this command if you want delete bucket content:
 
