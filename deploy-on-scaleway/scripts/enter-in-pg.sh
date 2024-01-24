@@ -3,4 +3,4 @@ set -e
 
 cd "$(dirname "$0")/../"
 
-pgcli "postgres://postgres:${POSTGRES_PASSWORD}@127.0.0.1:5435/postgres"
+pgcli "postgres://postgres:${POSTGRES_PASSWORD}@127.0.0.1:5432/postgres"

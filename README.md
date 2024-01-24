@@ -186,7 +186,7 @@ Launch backup restoration to `postgres2` instance:
 ```sh
 $ docker compose stop postgres2
 $ sudo rm -rf volumes/postgres2
-$ docker compose run --entrypoint=/restore.sh postgres2 "--type=time --target='2024-01-01 21:02:00+00' restore"
+$ docker compose run --entrypoint=/pgbackrest.sh postgres2 "--type=time --target='2024-01-01 21:02:00+00' restore"
 $ docker compose up -d postgres2
 $ ./scripts/enter-in-pg2.sh
 postgres@127:postgres> select * from dummy order by id desc limit 10;
@@ -208,7 +208,7 @@ SELECT 10
 Time: 0.010s
 $ docker compose stop postgres2
 $ sudo rm -rf volumes/postgres2
-$ docker compose run --entrypoint=/restore.sh postgres2 restore
+$ docker compose run --entrypoint=/pgbackrest.sh postgres2 restore
 $ docker compose up -d postgres2
 $ ./scripts/enter-in-pg2.sh
 postgres@127:postgres> select * from dummy order by id desc limit 10;
@@ -235,7 +235,7 @@ Now, I test restoration on `postgre1` instance:
 ```
 $ docker compose stop postgres1
 $ sudo rm -rf volumes/postgres1
-$ docker compose run --entrypoint=/restore.sh postgres1 "--type=time --target='2024-01-01 21:02:00+00' restore"
+$ docker compose run --entrypoint=/pgbackrest.sh postgres1 "--type=time --target='2024-01-01 21:02:00+00' restore"
 ```
 
 If you're not restoring the latest version of the database, but a past version, don't forget to change the value

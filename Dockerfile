@@ -20,6 +20,6 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
 COPY crontab /crontab
 COPY pgbackrest.conf.tmpl /etc/pgbackrest.conf.tmpl
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
-COPY ./restore.sh /restore.sh
+COPY ./pgbackrest.sh /pgbackrest.sh
 
 ENTRYPOINT ["/tini", "--", "/docker-entrypoint.sh"]

@@ -32,7 +32,7 @@ if [[ -v ENABLE_PGBACKREST_BACKUP ]]; then
         su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info check'
         echo "... pgbackrest check done"
 
-        echo "Start pgbackrest back ..."
+        echo "Start pgbackrest backup ..."
         su postgres -p -c 'pgbackrest --stanza=instance1 --log-level-console=info backup'
         echo "... pgbackrest backup done"
     fi
