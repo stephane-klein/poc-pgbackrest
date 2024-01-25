@@ -127,18 +127,47 @@ Time: 0.010s
 ## Restore server1 backup to server2 instance
 
 In this example, *server1* backup is restored on *server2*.  
-*server2* start backup on */repo2*.
+And after the restoration, the *server2* start backup on */repo2*.
 
 ```sh
-$ ./scripts/server1/install_basic_server_configuration.sh
-$ RESTORE=/repo ./scripts/server1/deploy_postgres.sh
+$ ./scripts/server2/install_basic_server_configuration.sh
+$ RESTORE=/repo ./scripts/server2/deploy_postgres.sh
 ```
 
 Check the restoration operation:
 
 ```
 $ ./scripts/server2/open_ssh_tunnel_to_postgres.sh
-$ ./scripts/
+$ ./scripts/server2/enter-in-pg.sh
+postgres@127:postgres> select * from public.dummy order by id desc limit 5;
++----+-------------------------------+
+| id | text                          |
+|----+-------------------------------|
+| 55 | 2024-01-24 20:51:02.571692+00 |
+| 54 | 2024-01-24 20:51:02.571692+00 |
+| 53 | 2024-01-24 20:51:02.571692+00 |
+| 52 | 2024-01-24 20:51:02.571692+00 |
+| 51 | 2024-01-24 20:51:02.571692+00 |
++----+-------------------------------+
+SELECT 5
+Time: 0.026s
+```
+
+## Restore server1 backup to server2 instance at a specific time
+
+In this example, *server1* backup is restored on *server2* at a specific time.  
+And after the restoration, the *server2* start backup on */repo2*.
+
+```sh
+$ ./scripts/server2/install_basic_server_configuration.sh
+$ RESTORE=/repo TIMESTAMP="2024-01-01 21:02:00+00" ./scripts/server2/deploy_postgres.sh
+```
+
+Check the restoration operation:
+
+```
+$ ./scripts/server2/open_ssh_tunnel_to_postgres.sh
+$ ./scripts/server2/enter-in-pg.sh
 ```
 
 ## Delete Scaleway bucket

@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-set -e
+set -ex
 
 PROJECT_FOLDER="/srv/postgres/"
 
@@ -40,12 +39,20 @@ cd ${PROJECT_FOLDER}
 
 {{ if ne (getenv "RESTORE" "") "" }}
 
-{{ if ne (getenv "TIMESTAMP" "") "" }}
-docker compose run --rm -e PGBACKREST_REPO1_PATH={{ .Env.RESTORE }} --entrypoint=/restore.sh postgres
+{{ if eq (getenv "TIMESTAMP" "") "" }}
+echo "Start restoration..."
+docker compose run -T --interactive=false --rm -e PGBACKREST_REPO1_PATH={{ .Env.RESTORE }} --entrypoint=/restore.sh postgres
+
+echo "Restoration completed"
 {{ else }}
-docker compose run --rm -e PGBACKREST_REPO1_PATH={{ .Env.RESTORE }} -e TIMESTAMP={{ .Env.TIMESTAMP }} --entrypoint=/restore-at.sh postgres
+echo "Start restoration at {{ .Env.TIMESTAMP }} ..."
+docker compose run -T --interactive=false --rm -e PGBACKREST_REPO1_PATH={{ .Env.RESTORE }} -e TIMESTAMP={{ .Env.TIMESTAMP }} --entrypoint=/restore-at.sh postgres;
+echo "Restoration completed"
 {{ end }}
 
 {{ end }}
 
+
+echo "Start Postgres..."
 docker compose up -d postgres --wait
+echo "Postgres started"
