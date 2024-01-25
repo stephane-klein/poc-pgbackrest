@@ -40,7 +40,11 @@ cd ${PROJECT_FOLDER}
 
 {{ if ne (getenv "RESTORE" "") "" }}
 
+{{ if ne (getenv "TIMESTAMP" "") "" }}
 docker compose run --rm -e PGBACKREST_REPO1_PATH={{ .Env.RESTORE }} --entrypoint=/restore.sh postgres
+{{ else }}
+docker compose run --rm -e PGBACKREST_REPO1_PATH={{ .Env.RESTORE }} -e TIMESTAMP={{ .Env.TIMESTAMP }} --entrypoint=/restore-at.sh postgres
+{{ end }}
 
 {{ end }}
 
