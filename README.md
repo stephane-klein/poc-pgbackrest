@@ -4,21 +4,10 @@ Repository starting point issue (in French): https://github.com/stephane-klein/b
 
 ## Prerequisites
 
-- [rtx](https://github.com/jdx/rtx)
+- [mise]https://mise.jdx.dev/()
 - [Docker Engine](https://docs.docker.com/engine/) (tested with `24.0.6`)
 - [pgcli](https://www.pgcli.com/)
 - `psql` (More info about `psql` [brew package](https://stackoverflow.com/a/49689589/261061))
-
-Run this command to check that everything is installed correctly:
-
-```
-$ ./scripts/doctor.sh
-docker 24.0.6 >= 24.0.6 installed ✅
-psql installed ✅
-pgcli installed ✅
-```
-
-See [`prerequisites.md`](prerequisites.md) to get more information on how to install this software.
 
 ## Services versions
 
@@ -28,7 +17,7 @@ See [`prerequisites.md`](prerequisites.md) to get more information on how to ins
 ## Getting start
 
 ```sh
-$ rtx install
+$ mise install
 $ docker compose build
 ```
 
