@@ -47,9 +47,8 @@ services:
       # PGBACKREST_REPO1_S3_KEY_SECRET: ${SCW_SECRET_KEY}
       # PGBACKREST_REPO1_S3_REGION: fr-par
       # PGBACKREST_REPO1_RETENTION_FULL: 2
-
     volumes:
-      - ./volumes/postgres1/:/var/lib/postgresql/data/
+      - postgres1:/var/lib/postgresql/data/
     healthcheck:
       test: ["CMD", "sh", "-c", "pg_isready -U $$POSTGRES_USER -h $$(hostname -i)"]
       interval: 10s
@@ -97,9 +96,8 @@ services:
       # PGBACKREST_REPO1_S3_KEY_SECRET: ${SCW_SECRET_KEY}
       # PGBACKREST_REPO1_S3_REGION: fr-par
       # PGBACKREST_REPO1_RETENTION_FULL: 2
-
     volumes:
-      - ./volumes/postgres2/:/var/lib/postgresql/data/
+      - postgres2:/var/lib/postgresql/data/
     healthcheck:
       test: ["CMD", "sh", "-c", "pg_isready -U $$POSTGRES_USER -h $$(hostname -i)"]
       interval: 10s
@@ -118,3 +116,9 @@ services:
     volumes:
       - ./volumes/minio/data/:/data/
       - ./minio/certs/:/certs/
+
+volumes:
+  postgres1:
+     name: ${COMPOSE_PROJECT_NAME}_postgres1
+  postgres2:
+     name: ${COMPOSE_PROJECT_NAME}_postgres2
