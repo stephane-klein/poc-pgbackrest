@@ -11,8 +11,8 @@ Repository starting point issue (in French): https://github.com/stephane-klein/b
 
 ## Services versions
 
-- PostgreSQL 16
-- [pgBackRest 2.49](https://github.com/pgbackrest/pgbackrest/releases/tag/release%2F2.49)
+- PostgreSQL 17
+- [pgBackRest 2.54.2](https://github.com/pgbackrest/pgbackrest/releases/tag/release%2F2.54.2)
 
 ## Getting start
 

@@ -1,12 +1,24 @@
-version: '3.8'
 services:
   postgres1:
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    image: postgres:17
     restart: unless-stopped
     ports:
       - 5432:5432
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres1:/var/lib/postgresql/data/
+    healthcheck:
+      test: ["CMD", "sh", "-c", "pg_isready -U $$POSTGRES_USER -h $$(hostname -i)"]
+      interval: 10s
+      start_period: 30s
+
+  pgbackrest:
+    build:
+      context: ./
+      dockerfile: Dockerfile
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
@@ -47,17 +59,9 @@ services:
       # PGBACKREST_REPO1_S3_KEY_SECRET: ${SCW_SECRET_KEY}
       # PGBACKREST_REPO1_S3_REGION: fr-par
       # PGBACKREST_REPO1_RETENTION_FULL: 2
-    volumes:
-      - postgres1:/var/lib/postgresql/data/
-    healthcheck:
-      test: ["CMD", "sh", "-c", "pg_isready -U $$POSTGRES_USER -h $$(hostname -i)"]
-      interval: 10s
-      start_period: 30s
 
   postgres2:
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    image: postgres:17
     restart: unless-stopped
     ports:
       - 5433:5432
@@ -114,7 +118,7 @@ services:
       MINIO_DOMAIN: minio
     command: server /data/ --certs-dir /certs --address ':443' --console-address ':9001'
     volumes:
-      - ./volumes/minio/data/:/data/
+      - minio:/volumes/minio/data/:/data/
       - ./minio/certs/:/certs/
 
 volumes:
@@ -122,3 +126,5 @@ volumes:
      name: ${COMPOSE_PROJECT_NAME}_postgres1
   postgres2:
      name: ${COMPOSE_PROJECT_NAME}_postgres2
+  minio:
+     name: ${COMPOSE_PROJECT_NAME}_minio
